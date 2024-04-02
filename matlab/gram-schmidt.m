@@ -57,6 +57,37 @@ disp('QR = ');disp(QR);
 disp('A = QR?');disp(abs(A - QR) < 2*eps);
 % -------------------------------------------------------------------------
 
+%% Gram-Schmitt Orthogonalization Process
+% April 2, 2024 
+clc
+A = [1 -2 -1;2 0 1;2 -4 2;4 0 0];
+
+[m,n] = size(A);
+Q = zeros(m,n);
+R = zeros(n);
+
+for j = 1:n
+   Q(:,j) = A(:,j);   
+    % Compute projection
+    for i = 1:j-1
+        R(i,j) = Q(:,i)'*A(:,j);
+        Q(:,j) = Q(:,j) - R(i,j)*Q(:,i);
+    end
+    R(j,j) = norm(A(:,j));
+    Q(:,j) = Q(:,j) ./R(j,j);
+end
+
+% Print results
+disp('A = ');disp(A);
+disp('Q = ');disp(Q);
+isothogonal = isortho(Q);
+fprintf('Orthogonal = %d\n\n',isothogonal);
+disp('R = ');disp(R);
+
+QR = Q*R;
+disp('QR = ');disp(QR);
+disp('A = QR?');disp(abs(A - QR) < 2*eps);
+% -------------------------------------------------------------------------
 
 
 
